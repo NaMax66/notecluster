@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import type { Cluster } from './types';
 import { analyzeNotes } from './services/geminiService';
 import NoteInput from './components/NoteInput';
@@ -17,10 +17,25 @@ const App: React.FC = () => {
   const [originalNotes, setOriginalNotes] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
-  const [language, setLanguage] = useState<string>('English');
+  const [language, setLanguage] = useState<string>(() => {
+    try {
+      const savedLanguage = localStorage.getItem('notecluster_language');
+      return savedLanguage || 'English';
+    } catch {
+      return 'English';
+    }
+  });
 
   const t = translations[language as keyof typeof translations] || translations.English;
   const supportedLanguages = Object.keys(translations);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem('notecluster_language', language);
+    } catch {
+      // ignore storage errors
+    }
+  }, [language]);
 
   const handleAnalyze = useCallback(async () => {
     if (!notesInput.trim()) {
