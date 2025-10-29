@@ -37,6 +37,12 @@ export const CreditCardIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) =
     </svg>
 );
 
+export const MailIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" {...props}>
+    <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5A2.25 2.25 0 0119.5 19.5h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.375a2.25 2.25 0 01-2.16 0l-7.5-4.375A2.25 2.25 0 012.25 6.993V6.75" />
+  </svg>
+);
+
 export const GoogleDocsIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" {...props}>
         <path d="M14 2H6C4.9 2 4 2.9 4 4V20C4 21.1 4.9 22 6 22H18C19.1 22 20 21.1 20 20V8L14 2ZM18 20H6V4H13V9H18V20ZM10.5 17.5L8 15.5L9.41 14.09L10.5 15.17L14.09 11.59L15.5 13L10.5 17.5Z" fill="#4285F4"/>

@@ -9,7 +9,7 @@ import LimitBanner from './components/LimitBanner';
 import { SparklesIcon } from './components/icons';
 import { translations } from './translations';
 
-const CHAR_LIMIT = 1000;
+const CHAR_LIMIT = 3000;
 
 const App: React.FC = () => {
   const [notesInput, setNotesInput] = useState<string>('');
