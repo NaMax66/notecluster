@@ -11,6 +11,17 @@ import { translations } from './translations';
 
 const CHAR_LIMIT = 3000;
 
+// --- Daily limit helper ---
+const getTodayKey = () => {
+  const today = new Date();
+  const y = today.getFullYear();
+  const m = String(today.getMonth() + 1).padStart(2, '0');
+  const d = String(today.getDate()).padStart(2, '0');
+  return `notecluster_analyze_${y}-${m}-${d}`;
+};
+
+const DAY_LIMIT = 6;
+
 const App: React.FC = () => {
   const [notesInput, setNotesInput] = useState<string>('');
   const [clusters, setClusters] = useState<Cluster[] | null>(null);
@@ -25,6 +36,7 @@ const App: React.FC = () => {
       return 'English';
     }
   });
+  const [isDayLimitExceeded, setIsDayLimitExceeded] = useState(false);
 
   const t = translations[language as keyof typeof translations] || translations.English;
   const supportedLanguages = Object.keys(translations);
@@ -37,7 +49,22 @@ const App: React.FC = () => {
     }
   }, [language]);
 
+  useEffect(() => {
+    const key = getTodayKey();
+    const count = Number(localStorage.getItem(key) || 0);
+    setIsDayLimitExceeded(count >= DAY_LIMIT);
+  }, [notesInput, language]);
+
   const handleAnalyze = useCallback(async () => {
+
+    // Check daily analysis limit
+    const todayKey = getTodayKey();
+    const count = Number(localStorage.getItem(todayKey) || 0);
+    if (count >= DAY_LIMIT) {
+      setIsDayLimitExceeded(true);
+      setError('Daily analysis limit of 10 reached, please try again tomorrow.');
+      return;
+    }
     if (!notesInput.trim()) {
       setError('Please enter some notes to analyze.');
       return;
@@ -53,6 +80,11 @@ const App: React.FC = () => {
     try {
       const result = await analyzeNotes(notesInput, language);
       setClusters(result);
+      // Increment usage count
+      localStorage.setItem(todayKey, String(count + 1));
+      if (count + 1 >= DAY_LIMIT) {
+        setIsDayLimitExceeded(true);
+      }
     } catch (err) {
       console.error(err);
       setError(err instanceof Error ? err.message : 'An unknown error occurred.');
@@ -107,6 +139,12 @@ Anxious about the pile of laundry I need to do.`;
                 disableText="Please reduce the number of characters to proceed."
             />
            )}
+          {isDayLimitExceeded && notesInput.length <= CHAR_LIMIT && (
+            <LimitBanner
+              limitBannerText={`Daily analysis limit of ${DAY_LIMIT} reached, please try again tomorrow... or leave your email and I will lift the quota for you`}
+              upgradeButtonText={t.upgradeButtonText}
+            />
+          )}
 
           <NoteInput
             value={notesInput}
@@ -121,7 +159,7 @@ Anxious about the pile of laundry I need to do.`;
             analyzingButtonText={t.analyzingButton}
             charCount={notesInput.length}
             charLimit={CHAR_LIMIT}
-            disableSubmit={notesInput.length > CHAR_LIMIT}
+            disableSubmit={notesInput.length > CHAR_LIMIT || isDayLimitExceeded}
           />
 
           {error && <ErrorMessage message={error} errorPrefixText={t.errorPrefix} />}
