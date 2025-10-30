@@ -103,6 +103,8 @@ Anxious about the pile of laundry I need to do.`;
             <LimitBanner 
                 limitBannerText={t.limitBannerText}
                 upgradeButtonText={t.upgradeButtonText}
+                disableUpgrade={true}
+                disableText="Please reduce the number of characters to proceed."
             />
            )}
 
@@ -119,6 +121,7 @@ Anxious about the pile of laundry I need to do.`;
             analyzingButtonText={t.analyzingButton}
             charCount={notesInput.length}
             charLimit={CHAR_LIMIT}
+            disableSubmit={notesInput.length > CHAR_LIMIT}
           />
 
           {error && <ErrorMessage message={error} errorPrefixText={t.errorPrefix} />}

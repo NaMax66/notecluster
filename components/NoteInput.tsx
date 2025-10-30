@@ -14,6 +14,7 @@ interface NoteInputProps {
   analyzingButtonText: string;
   charCount: number;
   charLimit: number;
+  disableSubmit?: boolean;
 }
 
 const NoteInput: React.FC<NoteInputProps> = ({ 
@@ -29,6 +30,7 @@ const NoteInput: React.FC<NoteInputProps> = ({
     analyzingButtonText,
     charCount,
     charLimit,
+    disableSubmit,
 }) => {
   return (
     <div className="mb-8">
@@ -56,7 +58,7 @@ const NoteInput: React.FC<NoteInputProps> = ({
         </button>
         <button
           onClick={onSubmit}
-          disabled={isLoading}
+          disabled={isLoading || disableSubmit}
           className="w-full sm:w-auto inline-flex items-center justify-center px-6 py-3 font-semibold text-white bg-amber-600 rounded-lg shadow-lg hover:bg-amber-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-stone-950 focus:ring-amber-500 disabled:bg-stone-700 disabled:cursor-not-allowed transition-all duration-200 ease-in-out transform hover:scale-105"
         >
           {isLoading ? (

@@ -4,9 +4,11 @@ import { MailIcon, WarningIcon } from './icons';
 interface LimitBannerProps {
   limitBannerText: string;
   upgradeButtonText: string;
+  disableUpgrade?: boolean;
+  disableText?: string;
 }
 
-const LimitBanner: React.FC<LimitBannerProps> = ({ limitBannerText, upgradeButtonText }) => {
+const LimitBanner: React.FC<LimitBannerProps> = ({ limitBannerText, upgradeButtonText, disableUpgrade = false, disableText }) => {
   const handleUpgradeClick = async () => {
     try {
       const email = window.prompt('Enter your email (we\'ll contact you when the quota increases):');
@@ -56,13 +58,19 @@ const LimitBanner: React.FC<LimitBannerProps> = ({ limitBannerText, upgradeButto
         <WarningIcon className="w-5 h-5 mr-3 flex-shrink-0" />
         <span className="font-semibold">{limitBannerText}</span>
       </div>
-      <button
-        onClick={handleUpgradeClick}
-        className="w-full sm:w-auto inline-flex items-center justify-center px-4 py-2 text-sm font-semibold text-stone-950 bg-amber-400 rounded-md hover:bg-amber-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-amber-900/50 focus:ring-amber-300 disabled:opacity-50 transition-colors flex-shrink-0"
-      >
-        <MailIcon className="w-5 h-5 mr-2" />
-        {upgradeButtonText}
-      </button>
+      <div className="flex flex-col items-center gap-1 sm:items-end">
+        <button
+          onClick={handleUpgradeClick}
+          disabled={disableUpgrade}
+          className="w-full sm:w-auto inline-flex items-center justify-center px-4 py-2 text-sm font-semibold text-stone-950 bg-amber-400 rounded-md hover:bg-amber-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-amber-900/50 focus:ring-amber-300 disabled:opacity-50 transition-colors flex-shrink-0 mb-0"
+        >
+          <MailIcon className="w-5 h-5 mr-2" />
+          {upgradeButtonText}
+        </button>
+        {disableUpgrade && disableText && (
+            <span className="text-xs text-orange-200 mt-1">{disableText}</span>
+        )}
+      </div>
     </div>
   );
 };
