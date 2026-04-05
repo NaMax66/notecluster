@@ -1,5 +1,5 @@
 interface ImportMetaEnv {
-  readonly VITE_CLOUDFLARE_EMAIL_ENDPOINT?: string;
+  readonly VITE_CLOUDFLARE_BASE_API?: string;
 }
 
 interface ImportMeta {

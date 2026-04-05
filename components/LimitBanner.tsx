@@ -21,19 +21,16 @@ const LimitBanner: React.FC<LimitBannerProps> = ({ limitBannerText, upgradeButto
         return;
       }
 
-      const endpoint = import.meta.env.VITE_CLOUDFLARE_EMAIL_ENDPOINT as string | undefined;
+      const endpoint = import.meta.env.VITE_CLOUDFLARE_BASE_API;
+      const subscribe = "/api/services/subscribe";
+
       if (!endpoint) {
-        console.warn('VITE_CLOUDFLARE_EMAIL_ENDPOINT is not configured');
-        window.alert('Service temporarily unavailable. Please try again later.');
-        return;
-      }
-      if (!endpoint) {
-        console.warn('VITE_CLOUDFLARE_EMAIL_ENDPOINT is not configured');
+        console.warn('VITE_CLOUDFLARE_BASE_API is not configured');
         window.alert('Service temporarily unavailable. Please try again later.');
         return;
       }
 
-      const response = await fetch(endpoint, {
+      const response = await fetch(endpoint + subscribe, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

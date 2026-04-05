@@ -18,8 +18,7 @@ export default defineConfig(({ mode }) => {
       },
       plugins: [react()],
       define: {
-        'process.env.API_KEY': JSON.stringify(env.GEMINI_API_KEY),
-        'process.env.GEMINI_API_KEY': JSON.stringify(env.GEMINI_API_KEY)
+        'process.env.VITE_CLOUDFLARE_BASE_API': JSON.stringify(env.VITE_CLOUDFLARE_BASE_API)
       },
       resolve: {
         alias: {
