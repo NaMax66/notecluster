@@ -12,6 +12,11 @@ type AnalyzeValidationError = {
   errors: unknown;
   result: Record<string, never>;
 };
+type ApiErrorResponse = {
+  success?: boolean;
+  code?: string;
+  message?: string;
+};
 
 export async function analyzeNotes(
   notes: string,
@@ -27,17 +32,31 @@ export async function analyzeNotes(
     body: JSON.stringify({ notes, language }),
   });
 
-  const data: unknown = await res.json();
+  const rawBody = await res.text();
+  let data: unknown = null;
+
+  if (rawBody.trim()) {
+    try {
+      data = JSON.parse(rawBody) as unknown;
+    } catch {
+      data = null;
+    }
+  }
 
   if (!res.ok) {
-    const msg =
-      typeof data === "object" &&
-      data !== null &&
-      "message" in data &&
-      typeof (data as { message: unknown }).message === "string"
-        ? (data as { message: string }).message
-        : res.statusText;
-    throw new Error(msg || `HTTP ${res.status}`);
+    const parsedError =
+      typeof data === "object" && data !== null ? (data as ApiErrorResponse) : null;
+    const apiCode = parsedError?.code;
+    const apiMessage =
+      typeof parsedError?.message === "string" ? parsedError.message.trim() : "";
+
+    if (res.status === 503 && apiCode === "GEMINI_HIGH_DEMAND") {
+      throw new Error("The service is overloaded now. Please try again later.");
+    }
+
+    throw new Error(
+      apiMessage || rawBody.trim() || res.statusText || `HTTP ${res.status}`
+    );
   }
 
   const ok = data as AnalyzeOk | AnalyzeValidationError;
