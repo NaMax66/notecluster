@@ -1,4 +1,4 @@
-const API_BASE = import.meta.env.VITE_CLOUDFLARE_BASE_API;
+const NOTES_ANALYZE_ENDPOINT = "/api/ai/notes/analyze";
 
 type NoteCluster = {
   title: string;
@@ -22,7 +22,7 @@ export async function analyzeNotes(
   notes: string,
   language: string
 ): Promise<NoteCluster[]> {
-  const res = await fetch(`${API_BASE}/api/notes/analyze`, {
+  const res = await fetch(NOTES_ANALYZE_ENDPOINT, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
