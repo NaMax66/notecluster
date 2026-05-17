@@ -1,3 +1,5 @@
+import { gatewayPath } from "./apiGateway";
+
 const NOTES_ANALYZE_ENDPOINT = "/api/ai/notes/analyze";
 
 type NoteCluster = {
@@ -22,7 +24,7 @@ export async function analyzeNotes(
   notes: string,
   language: string
 ): Promise<NoteCluster[]> {
-  const res = await fetch(NOTES_ANALYZE_ENDPOINT, {
+  const res = await fetch(gatewayPath(NOTES_ANALYZE_ENDPOINT), {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

@@ -1,5 +1,6 @@
 import React from 'react';
 import { MailIcon, WarningIcon } from './icons';
+import { gatewayPath } from '../services/apiGateway';
 
 interface LimitBannerProps {
   limitBannerText: string;
@@ -23,7 +24,7 @@ const LimitBanner: React.FC<LimitBannerProps> = ({ limitBannerText, upgradeButto
 
       const subscribe = "/api/services/subscribe";
 
-      const response = await fetch(subscribe, {
+      const response = await fetch(gatewayPath(subscribe), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
