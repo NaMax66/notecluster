@@ -23,6 +23,8 @@ export function trackHumanAction(action: string) {
     properties: {
       app: 'notecluster',
       action,
+      appVersion: __APP_VERSION__,
+      userAgent: navigator.userAgent,
     },
   };
   const body = JSON.stringify(payload);
