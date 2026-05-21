@@ -8,6 +8,7 @@ import LanguageSwitcher from './components/LanguageSwitcher';
 import LimitBanner from './components/LimitBanner';
 import { SparklesIcon } from './components/icons';
 import { translations } from './translations';
+import { trackHumanAction } from './services/analytics';
 
 const CHAR_LIMIT = 3000;
 
@@ -69,6 +70,8 @@ const App: React.FC = () => {
       setError('Please enter some notes to analyze.');
       return;
     }
+
+    trackHumanAction('analyze_notes_submit');
 
     setIsLoading(true);
     setError(null);
