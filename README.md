@@ -14,3 +14,11 @@ Backend on Cloudflare worker powered by wrangler
 4. Setup local server endpoint
 5. Run the app:
    `npm run dev`
+
+## Authentication
+
+NoteCluster uses Google Sign-In through the same-origin Cloudflare gateway. The
+backend creates an HTTP-only session and returns the user's remaining daily quota.
+The Google OAuth client allows `https://notecluster.selfkit.org` and
+`http://localhost:3000` as JavaScript origins. Production branding uses
+`https://notecluster.selfkit.org/privacy` as the public privacy-policy URL.
