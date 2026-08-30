@@ -184,6 +184,9 @@ Anxious about the pile of laundry I need to do.`;
 
         <footer className="text-center mt-12 text-stone-500 text-sm">
           <p>{t.footerText}</p>
+          <a className="mt-2 inline-block hover:text-stone-300" href="/privacy">
+            Privacy Policy
+          </a>
         </footer>
       </main>
     </div>
