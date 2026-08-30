@@ -8,7 +8,16 @@ type NoteCluster = {
   note_numbers: number[];
 };
 
-type AnalyzeOk = { success: true; clusters: NoteCluster[] };
+type NoteclusterQuota = {
+  used: { analyses: number; characters: number };
+  remaining: { analyses: number; characters: number };
+  limits: {
+    dailyAnalyses: number;
+    dailyCharacters: number;
+    maxCharactersPerAnalysis: number;
+  };
+};
+type AnalyzeOk = { success: true; clusters: NoteCluster[]; quota: NoteclusterQuota };
 type AnalyzeValidationError = {
   success: false;
   errors: unknown;
@@ -23,7 +32,7 @@ type ApiErrorResponse = {
 export async function analyzeNotes(
   notes: string,
   language: string
-): Promise<NoteCluster[]> {
+): Promise<{ clusters: NoteCluster[]; quota: NoteclusterQuota }> {
   const res = await fetch(gatewayPath(NOTES_ANALYZE_ENDPOINT), {
     method: "POST",
     headers: {
@@ -66,5 +75,5 @@ export async function analyzeNotes(
     throw new Error("Validation failed");
   }
 
-  return ok.clusters;
+  return { clusters: ok.clusters, quota: ok.quota };
 }

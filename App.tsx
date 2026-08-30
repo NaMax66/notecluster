@@ -5,23 +5,13 @@ import NoteInput from './components/NoteInput';
 import ResultsDisplay from './components/ResultsDisplay';
 import ErrorMessage from './components/ErrorMessage';
 import LanguageSwitcher from './components/LanguageSwitcher';
-import LimitBanner from './components/LimitBanner';
+import AccountBar from './components/AccountBar';
 import { SparklesIcon } from './components/icons';
 import { translations } from './translations';
 import { trackHumanAction } from './services/analytics';
+import { getAuthStatus, type AuthStatus } from './services/auth';
 
-const CHAR_LIMIT = 3000;
-
-// --- Daily limit helper ---
-const getTodayKey = () => {
-  const today = new Date();
-  const y = today.getFullYear();
-  const m = String(today.getMonth() + 1).padStart(2, '0');
-  const d = String(today.getDate()).padStart(2, '0');
-  return `notecluster_analyze_${y}-${m}-${d}`;
-};
-
-const DAY_LIMIT = 6;
+const SIGNED_OUT_CHAR_LIMIT = 3000;
 
 const App: React.FC = () => {
   const [notesInput, setNotesInput] = useState<string>('');
@@ -37,7 +27,7 @@ const App: React.FC = () => {
       return 'English';
     }
   });
-  const [isDayLimitExceeded, setIsDayLimitExceeded] = useState(false);
+  const [auth, setAuth] = useState<AuthStatus | null>(null);
 
   const t = translations[language as keyof typeof translations] || translations.English;
   const supportedLanguages = Object.keys(translations);
@@ -51,19 +41,32 @@ const App: React.FC = () => {
   }, [language]);
 
   useEffect(() => {
-    const key = getTodayKey();
-    const count = Number(localStorage.getItem(key) || 0);
-    setIsDayLimitExceeded(count >= DAY_LIMIT);
-  }, [notesInput, language]);
+    getAuthStatus()
+      .then(setAuth)
+      .catch((reason) => {
+        console.error(reason);
+        setAuth({
+          authenticated: false,
+          limits: {
+            dailyAnalyses: 10,
+            dailyCharacters: 60000,
+            maxCharactersPerAnalysis: 12000,
+          },
+        });
+      });
+  }, []);
+
+  const charLimit = auth?.authenticated
+    ? auth.quota.limits.maxCharactersPerAnalysis
+    : SIGNED_OUT_CHAR_LIMIT;
+  const isDayLimitExceeded = Boolean(
+    auth?.authenticated &&
+      (auth.quota.remaining.analyses <= 0 || auth.quota.remaining.characters <= 0)
+  );
 
   const handleAnalyze = useCallback(async () => {
-
-    // Check daily analysis limit
-    const todayKey = getTodayKey();
-    const count = Number(localStorage.getItem(todayKey) || 0);
-    if (count >= DAY_LIMIT) {
-      setIsDayLimitExceeded(true);
-      setError('Daily analysis limit of 10 reached, please try again tomorrow.');
+    if (!auth?.authenticated) {
+      setError(t.signInRequired);
       return;
     }
     if (!notesInput.trim()) {
@@ -82,19 +85,15 @@ const App: React.FC = () => {
 
     try {
       const result = await analyzeNotes(notesInput, language);
-      setClusters(result);
-      // Increment usage count
-      localStorage.setItem(todayKey, String(count + 1));
-      if (count + 1 >= DAY_LIMIT) {
-        setIsDayLimitExceeded(true);
-      }
+      setClusters(result.clusters);
+      setAuth({ ...auth, quota: result.quota });
     } catch (err) {
       console.error(err);
       setError(err instanceof Error ? err.message : 'An unknown error occurred.');
     } finally {
       setIsLoading(false);
     }
-  }, [notesInput, language]);
+  }, [auth, notesInput, language, t.signInRequired]);
   
   const exampleNotes = `Feeling overwhelmed with the project deadline.
 Need to call mom back, feeling a bit guilty.
@@ -134,19 +133,22 @@ Anxious about the pile of laundry I need to do.`;
         </header>
 
         <div className="bg-stone-900/70 rounded-2xl shadow-2xl shadow-black/20 ring-1 ring-stone-800 p-6 md:p-8">
-          {notesInput.length > CHAR_LIMIT && (
-            <LimitBanner 
-                limitBannerText={t.limitBannerText}
-                upgradeButtonText={t.upgradeButtonText}
-                disableUpgrade={true}
-                disableText="Please reduce the number of characters to proceed."
-            />
-           )}
-          {isDayLimitExceeded && notesInput.length <= CHAR_LIMIT && (
-            <LimitBanner
-              limitBannerText={`Daily analysis limit of ${DAY_LIMIT} reached, please try again tomorrow... or leave your email and I will lift the quota for you`}
-              upgradeButtonText={t.upgradeButtonText}
-            />
+          <AccountBar
+            auth={auth}
+            copy={t.auth}
+            language={language}
+            onChange={setAuth}
+          />
+
+          {notesInput.length > charLimit && (
+            <div className="my-4 rounded-lg border border-amber-700 bg-amber-900/50 px-4 py-3 text-amber-200">
+              {t.characterLimit.replace('{limit}', charLimit.toLocaleString())}
+            </div>
+          )}
+          {isDayLimitExceeded && notesInput.length <= charLimit && (
+            <div className="my-4 rounded-lg border border-amber-700 bg-amber-900/50 px-4 py-3 text-amber-200">
+              {t.dailyLimitReached}
+            </div>
           )}
 
           <NoteInput
@@ -161,8 +163,8 @@ Anxious about the pile of laundry I need to do.`;
             analyzeButtonText={t.analyzeButton}
             analyzingButtonText={t.analyzingButton}
             charCount={notesInput.length}
-            charLimit={CHAR_LIMIT}
-            disableSubmit={notesInput.length > CHAR_LIMIT || isDayLimitExceeded}
+            charLimit={charLimit}
+            disableSubmit={!auth?.authenticated || notesInput.length > charLimit || isDayLimitExceeded}
           />
 
           {error && <ErrorMessage message={error} errorPrefixText={t.errorPrefix} />}
