@@ -10,7 +10,28 @@ if (!rootElement) {
 }
 
 const root = ReactDOM.createRoot(rootElement);
-const Page = window.location.pathname === '/privacy' ? PrivacyPolicy : App;
+const isPrivacyPage = window.location.pathname === '/privacy';
+const Page = isPrivacyPage ? PrivacyPolicy : App;
+const canonicalUrl = isPrivacyPage
+  ? 'https://notecluster.selfkit.org/privacy'
+  : 'https://notecluster.selfkit.org/';
+
+document.title = isPrivacyPage
+  ? 'Privacy Policy | NoteCluster'
+  : 'NoteCluster — AI Note Organizer & Thought Clustering';
+
+const canonicalLink = document.querySelector<HTMLLinkElement>('link[rel="canonical"]');
+canonicalLink?.setAttribute('href', canonicalUrl);
+
+if (isPrivacyPage) {
+  document
+    .querySelector<HTMLMetaElement>('meta[name="description"]')
+    ?.setAttribute(
+      'content',
+      'Learn how NoteCluster handles Google account data, submitted notes, usage information, and account deletion requests.'
+    );
+}
+
 root.render(
   <React.StrictMode>
     <Page />

@@ -16,6 +16,13 @@ export const translations = {
     signInRequired: 'Sign in with Google to analyze your notes.',
     characterLimit: 'This analysis accepts up to {limit} characters.',
     dailyLimitReached: 'Your daily limit has been reached. Please try again tomorrow.',
+    aboutTitle: 'How NoteCluster organizes your thoughts',
+    aboutDescription: 'NoteCluster is an AI note organizer for journals, brainstorms, and unstructured thoughts. It groups related notes by emotional tone and theme so patterns are easier to review.',
+    howItWorks: [
+      { title: 'Add your notes', description: 'Paste one thought per line, from quick reminders to longer journal entries.' },
+      { title: 'Analyze with AI', description: 'NoteCluster identifies relationships, themes, and emotional signals across your notes.' },
+      { title: 'Review clear clusters', description: 'Explore organized groups without changing the original wording of your notes.' },
+    ],
     auth: {
       signInPrompt: 'Sign in to get 10 analyses per day and up to 12,000 characters per analysis.',
       signedInAs: 'Signed in as',
@@ -45,6 +52,13 @@ export const translations = {
     signInRequired: 'Войдите через Google, чтобы анализировать заметки.',
     characterLimit: 'За один анализ можно отправить до {limit} символов.',
     dailyLimitReached: 'Дневной лимит закончился. Попробуйте снова завтра.',
+    aboutTitle: 'Как NoteCluster организует ваши мысли',
+    aboutDescription: 'NoteCluster — AI-инструмент для дневников, мозговых штурмов и неструктурированных мыслей. Он группирует связанные заметки по эмоциональному тону и темам, чтобы закономерности было легче увидеть.',
+    howItWorks: [
+      { title: 'Добавьте заметки', description: 'Вставьте по одной мысли в строке — от коротких напоминаний до записей из дневника.' },
+      { title: 'Запустите AI-анализ', description: 'NoteCluster найдёт связи, темы и эмоциональные сигналы в ваших заметках.' },
+      { title: 'Изучите кластеры', description: 'Просматривайте понятные группы без изменения исходного текста заметок.' },
+    ],
     auth: {
       signInPrompt: 'Войдите и получите 10 анализов в день — до 12 000 символов за один раз.',
       signedInAs: 'Вы вошли как',
@@ -74,6 +88,13 @@ export const translations = {
     signInRequired: 'Inicia sesión con Google para analizar tus notas.',
     characterLimit: 'Cada análisis admite hasta {limit} caracteres.',
     dailyLimitReached: 'Has alcanzado tu límite diario. Inténtalo de nuevo mañana.',
+    aboutTitle: 'Cómo organiza NoteCluster tus pensamientos',
+    aboutDescription: 'NoteCluster es un organizador de notas con IA para diarios, lluvias de ideas y pensamientos sin estructura. Agrupa notas relacionadas por tono emocional y tema para facilitar la revisión de patrones.',
+    howItWorks: [
+      { title: 'Añade tus notas', description: 'Pega una idea por línea, desde recordatorios rápidos hasta entradas de diario.' },
+      { title: 'Analiza con IA', description: 'NoteCluster identifica relaciones, temas y señales emocionales entre tus notas.' },
+      { title: 'Revisa los grupos', description: 'Explora grupos claros sin modificar el texto original de tus notas.' },
+    ],
     auth: {
       signInPrompt: 'Inicia sesión para obtener 10 análisis al día y hasta 12 000 caracteres por análisis.',
       signedInAs: 'Sesión iniciada como',
@@ -103,6 +124,13 @@ export const translations = {
     signInRequired: 'Connectez-vous avec Google pour analyser vos notes.',
     characterLimit: 'Chaque analyse accepte jusqu’à {limit} caractères.',
     dailyLimitReached: 'Votre limite quotidienne est atteinte. Réessayez demain.',
+    aboutTitle: 'Comment NoteCluster organise vos pensées',
+    aboutDescription: 'NoteCluster est un organisateur de notes par IA pour les journaux, les brainstormings et les pensées non structurées. Il regroupe les notes liées par tonalité émotionnelle et par thème afin de faciliter leur lecture.',
+    howItWorks: [
+      { title: 'Ajoutez vos notes', description: 'Collez une pensée par ligne, du simple rappel à une entrée de journal.' },
+      { title: 'Analysez avec l’IA', description: 'NoteCluster repère les relations, les thèmes et les signaux émotionnels dans vos notes.' },
+      { title: 'Consultez les groupes', description: 'Explorez des groupes clairs sans modifier le texte original de vos notes.' },
+    ],
     auth: {
       signInPrompt: 'Connectez-vous pour obtenir 10 analyses par jour et jusqu’à 12 000 caractères par analyse.',
       signedInAs: 'Connecté en tant que',
@@ -132,6 +160,13 @@ export const translations = {
     signInRequired: 'Melde dich mit Google an, um deine Notizen zu analysieren.',
     characterLimit: 'Pro Analyse sind bis zu {limit} Zeichen möglich.',
     dailyLimitReached: 'Dein Tageslimit ist erreicht. Versuche es morgen erneut.',
+    aboutTitle: 'Wie NoteCluster deine Gedanken organisiert',
+    aboutDescription: 'NoteCluster ist ein KI-Notizorganisator für Tagebücher, Brainstormings und unstrukturierte Gedanken. Verwandte Notizen werden nach emotionalem Ton und Thema gruppiert, damit Muster leichter erkennbar sind.',
+    howItWorks: [
+      { title: 'Notizen hinzufügen', description: 'Füge einen Gedanken pro Zeile ein – von kurzen Erinnerungen bis zu Tagebucheinträgen.' },
+      { title: 'Mit KI analysieren', description: 'NoteCluster erkennt Beziehungen, Themen und emotionale Signale in deinen Notizen.' },
+      { title: 'Cluster ansehen', description: 'Erkunde übersichtliche Gruppen, ohne den ursprünglichen Wortlaut deiner Notizen zu verändern.' },
+    ],
     auth: {
       signInPrompt: 'Melde dich an und erhalte 10 Analysen pro Tag mit bis zu 12.000 Zeichen pro Analyse.',
       signedInAs: 'Angemeldet als',
