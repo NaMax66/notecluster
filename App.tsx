@@ -12,6 +12,13 @@ import { trackHumanAction } from './services/analytics';
 import { getAuthStatus, type AuthStatus } from './services/auth';
 
 const SIGNED_OUT_CHAR_LIMIT = 3000;
+const LANGUAGE_CODES: Record<string, string> = {
+  English: 'en',
+  Русский: 'ru',
+  Español: 'es',
+  Français: 'fr',
+  Deutsch: 'de',
+};
 
 const App: React.FC = () => {
   const [notesInput, setNotesInput] = useState<string>('');
@@ -38,6 +45,7 @@ const App: React.FC = () => {
     } catch {
       // ignore storage errors
     }
+    document.documentElement.lang = LANGUAGE_CODES[language] || 'en';
   }, [language]);
 
   useEffect(() => {
@@ -181,6 +189,22 @@ Anxious about the pile of laundry I need to do.`;
             exportToSheetsText={t.exportToSheetsButton}
           />
         </div>
+
+        <section aria-labelledby="how-notecluster-works" className="mt-12 border-t border-stone-800 pt-10">
+          <h2 id="how-notecluster-works" className="text-2xl font-semibold text-stone-100">
+            {t.aboutTitle}
+          </h2>
+          <p className="mt-3 max-w-3xl leading-7 text-stone-400">{t.aboutDescription}</p>
+          <ol className="mt-6 grid gap-4 md:grid-cols-3">
+            {t.howItWorks.map((step, index) => (
+              <li key={step.title} className="rounded-xl border border-stone-800 bg-stone-900/40 p-5">
+                <span className="text-sm font-semibold text-amber-400">{index + 1}</span>
+                <h3 className="mt-2 font-semibold text-stone-100">{step.title}</h3>
+                <p className="mt-2 text-sm leading-6 text-stone-400">{step.description}</p>
+              </li>
+            ))}
+          </ol>
+        </section>
 
         <footer className="text-center mt-12 text-stone-500 text-sm">
           <p>{t.footerText}</p>

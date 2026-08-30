@@ -1,10 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF--8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Internal Flow Analyst</title>
+    <title>NoteCluster — AI Note Organizer & Thought Clustering</title>
+    <meta
+      name="description"
+      content="Organize scattered notes into clear emotional and thematic clusters with AI. NoteCluster turns unstructured thoughts into an easy-to-review overview."
+    />
+    <meta name="application-name" content="NoteCluster" />
+    <meta name="theme-color" content="#0c0a09" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <link rel="canonical" href="https://notecluster.selfkit.org/" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="NoteCluster" />
+    <meta property="og:title" content="NoteCluster — AI Note Organizer & Thought Clustering" />
+    <meta
+      property="og:description"
+      content="Turn scattered thoughts into clear emotional and thematic clusters with AI."
+    />
+    <meta property="og:url" content="https://notecluster.selfkit.org/" />
+    <meta property="og:locale" content="en_US" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="NoteCluster — AI Note Organizer" />
+    <meta
+      name="twitter:description"
+      content="Turn scattered thoughts into clear emotional and thematic clusters with AI."
+    />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "NoteCluster",
+        "url": "https://notecluster.selfkit.org/",
+        "description": "An AI note organizer that groups unstructured thoughts into emotional and thematic clusters.",
+        "applicationCategory": "LifestyleApplication",
+        "operatingSystem": "Any",
+        "browserRequirements": "Requires JavaScript and a modern web browser",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        "featureList": [
+          "AI-assisted note clustering",
+          "Emotional and thematic organization",
+          "Multilingual interface",
+          "Google account sign-in"
+        ]
+      }
+    </script>
     <script src="https://cdn.tailwindcss.com"></script>
   <script type="importmap">
 {
@@ -19,6 +68,10 @@
 </head>
   <body class="bg-stone-950 text-stone-300">
     <div id="root"></div>
+    <noscript>
+      NoteCluster is an AI note organizer that groups scattered thoughts into
+      emotional and thematic clusters. JavaScript is required to use the analyzer.
+    </noscript>
     <script type="module" src="/index.tsx"></script>
   </body>
 </html>

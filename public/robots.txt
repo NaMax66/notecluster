@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://notecluster.selfkit.org/sitemap.xml
